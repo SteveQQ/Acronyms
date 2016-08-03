@@ -6,10 +6,7 @@ import java.awt.*;
  * Created by SteveQ on 2016-08-01.
  */
 public class GUI {
-    public static void main(String[] args) {
-        new GUI().createGUI();
-    }
-
+    public JTextArea inputWords;
     public void createGUI(){
         JFrame frame = new JFrame("Acronyms Gnerator");
         JPanel mainPanel = new JPanel();
@@ -20,7 +17,7 @@ public class GUI {
         wrappingPanel.setLayout(box);
         wrappingPanel.setBackground(Color.decode("#5597C2"));
 
-        JTextArea inputWords = new JTextArea(10, 40);
+        inputWords = new JTextArea(10, 40);
         JScrollPane textInputScrollPane = new JScrollPane(inputWords, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         inputWords.setLineWrap(true);
         inputWords.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
@@ -28,6 +25,7 @@ public class GUI {
 
         JButton loadWordsButton = new JButton("LOAD WORDS");
         loadWordsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loadWordsButton.addActionListener(new LoadWords());
 
         JButton generateAcronyms = new JButton("GENERATE ACRONYMS");
         generateAcronyms.setAlignmentX(Component.CENTER_ALIGNMENT);
