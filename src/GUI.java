@@ -6,13 +6,25 @@ import java.awt.*;
  * Created by SteveQ on 2016-08-01.
  */
 public class GUI {
-    public JTextArea inputWords;
-    public void createGUI(){
-        JFrame frame = new JFrame("Acronyms Gnerator");
-        JPanel mainPanel = new JPanel();
+    public static JFrame frame;
+
+    public static JPanel mainPanel;
+    public static JPanel wrappingPanel;
+
+    public static JTextArea inputWords;
+    public static JTextArea outputAcronyms;
+
+    public static JButton loadWordsButton;
+    public static JButton generateAcronyms;
+    public static JButton saveAcronymsButton;
+    public static JButton searchRealWords;
+
+    public static void createGUI(){
+        frame = new JFrame("Acronyms Gnerator");
+        mainPanel = new JPanel();
         mainPanel.setBackground(Color.decode("#5597C2"));
 
-        JPanel wrappingPanel = new JPanel();
+        wrappingPanel = new JPanel();
         BoxLayout box = new BoxLayout(wrappingPanel, BoxLayout.Y_AXIS);
         wrappingPanel.setLayout(box);
         wrappingPanel.setBackground(Color.decode("#5597C2"));
@@ -22,24 +34,27 @@ public class GUI {
         inputWords.setLineWrap(true);
         inputWords.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         inputWords.setFont(new Font(Font.SANS_SERIF, 0, 14));
+        inputWords.setEditable(false);
 
-        JButton loadWordsButton = new JButton("LOAD WORDS");
+        loadWordsButton = new JButton("LOAD WORDS");
         loadWordsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         loadWordsButton.addActionListener(new LoadWords());
 
-        JButton generateAcronyms = new JButton("GENERATE ACRONYMS");
+        generateAcronyms = new JButton("GENERATE ACRONYMS");
         generateAcronyms.setAlignmentX(Component.CENTER_ALIGNMENT);
+        generateAcronyms.addActionListener(new Generator());
 
-        JTextArea outputAcronyms = new JTextArea(10, 40);
+        outputAcronyms = new JTextArea(10, 40);
         JScrollPane textOutputScrollPane = new JScrollPane(outputAcronyms, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         outputAcronyms.setLineWrap(true);
         outputAcronyms.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         outputAcronyms.setFont(new Font(Font.SANS_SERIF, 0, 14));
+        outputAcronyms.setEditable(false);
 
-        JButton saveAcronymsButton = new JButton("SAVE ACRONYMS");
+        saveAcronymsButton = new JButton("SAVE ACRONYMS");
         saveAcronymsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton searchRealWords = new JButton("SEARCH REAL WORDS");
+        searchRealWords = new JButton("SEARCH REAL WORDS");
         searchRealWords.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 

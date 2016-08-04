@@ -13,18 +13,12 @@ public class LoadWords implements ActionListener {
             BufferedReader loader = new BufferedReader(new FileReader(words));
             String line = null;
             while((line = loader.readLine()) != null){
-                AcronymsMain.gui.inputWords.append(line + "\n");
+                GUI.inputWords.append(line + "\n");
             }
         } catch (FileNotFoundException fnfe) {
             fnfe.printStackTrace();
-        } catch (NullPointerException npe) {
-            npe.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
-        } catch (SecurityException se) {
-            se.printStackTrace();
-        } catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
         }
     }
 }
