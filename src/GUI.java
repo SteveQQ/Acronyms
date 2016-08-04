@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Created by SteveQ on 2016-08-01.
@@ -74,7 +76,16 @@ public class GUI {
         mainPanel.add(wrappingPanel);
 
         frame.getContentPane().add(BorderLayout.CENTER, mainPanel);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure?", "Confirm Exit", JOptionPane.YES_NO_OPTION);
+                if (confirmed == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
         frame.setResizable(false);
         frame.setSize(700, 700);
         frame.setVisible(true);
