@@ -16,7 +16,7 @@ public class GenerateAcronymsTest {
         System.out.println("Numbers of repetitions: " + reps);
         int combs = gen.permutationWithRepetition(charListTest.size(), reps);
         System.out.println("Possible combinations: " + combs);
-        gen.inputWord = "klomb";
-        System.out.println(gen.generateAcronyms("klomb"));
+        gen.inputWord = "klomby";
+        System.out.println(gen.generateAcronyms("klomby"));
     }
 }

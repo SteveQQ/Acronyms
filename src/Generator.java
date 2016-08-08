@@ -14,7 +14,11 @@ public class Generator implements ActionListener {
         try {
             selectedWord = GUI.inputWords.getSelectedText();
             if (selectedWord != null) {
-                GUI.outputAcronyms.append(selectedWord + "\n");
+                inputWord = selectedWord;
+                ArrayList<String> generatedAcronyms = generateAcronyms(selectedWord);
+                for(String el : generatedAcronyms){
+                    GUI.outputAcronyms.append(el + "\n");
+                }
             }
         } catch (IllegalArgumentException iae) {
             iae.printStackTrace();
@@ -70,7 +74,7 @@ public class Generator implements ActionListener {
         return charList;
     }
 
-    String getStringRepresentation(ArrayList<Character> list)
+    public String getStringRepresentation(ArrayList<Character> list)
     {
         StringBuilder builder = new StringBuilder(list.size());
         for(Character ch: list)
@@ -138,25 +142,5 @@ public class Generator implements ActionListener {
         acronymsList.remove(inputWord);
         System.out.println(acronymsList.size());
         return acronymsList;
-        /*
-        do{
-
-            //for (int i = 0; i < charsOrigin.size(); i++) {
-                for (int j = 0; j < charsOrigin.size(); j++) {
-                    //if(i != j) {
-                        charsToModify = swapIndexes(charsToModify, 0, j);
-                        acronymAsString = getStringRepresentation(charsToModify);
-                        if((acronymsList.indexOf(acronymAsString) < 0) && (!acronymAsString.equals(getStringRepresentation(charsOrigin)))) {
-                            acronymsList.add(acronymAsString);
-                        }
-                    //}
-                }
-            //}
-            System.out.println(acronymsList.size());
-        } while (acronymsList.size() != (permutationWithRepetition(charsOrigin.size(), getRepetitions(charsOrigin))-1));
-
-        return acronymsList;*/
     }
-
-
 }
