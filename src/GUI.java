@@ -62,6 +62,7 @@ public class GUI {
 
         saveAcronymsButton = new JButton("SAVE ACRONYMS");
         saveAcronymsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        saveAcronymsButton.addActionListener(new SaveWords());
 
         searchRealWords = new JButton("SEARCH REAL WORDS");
         searchRealWords.setAlignmentX(Component.CENTER_ALIGNMENT);

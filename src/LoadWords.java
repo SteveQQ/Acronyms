@@ -7,10 +7,11 @@ import java.io.*;
  */
 public class LoadWords implements ActionListener {
     public void actionPerformed(ActionEvent ev){
+        BufferedReader loader = null;
         try {
             String workingDirectory = System.getProperty("user.dir");
             File words = new File(workingDirectory, "res\\words.txt");
-            BufferedReader loader = new BufferedReader(new FileReader(words));
+            loader = new BufferedReader(new FileReader(words));
             String line = null;
             while((line = loader.readLine()) != null){
                 GUI.inputWords.append(line + "\n");
@@ -19,6 +20,13 @@ public class LoadWords implements ActionListener {
             fnfe.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
+        }
+        finally {
+            try {
+                loader.close();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 }
