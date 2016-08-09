@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -13,6 +12,7 @@ public class GUI {
     public static JPanel mainPanel;
     public static JPanel wrappingPanel;
     public static JPanel horizontalPanel;
+    public static JPanel horizontalPanel2;
 
     public static JTextArea inputWords;
     public static JTextArea outputAcronyms;
@@ -22,6 +22,7 @@ public class GUI {
     public static JButton saveAcronymsButton;
     public static JButton searchRealWords;
     public static JButton clearOutcomes;
+    public static JButton clearInputs;
 
     public static void createGUI(){
         frame = new JFrame("Acronyms Gnerator");
@@ -36,16 +37,21 @@ public class GUI {
         horizontalPanel = new JPanel();
         horizontalPanel.setBackground(Color.decode("#5597C2"));
 
+        horizontalPanel2 = new JPanel();
+        horizontalPanel2.setBackground(Color.decode("#5597C2"));
+
         inputWords = new JTextArea(10, 40);
         JScrollPane textInputScrollPane = new JScrollPane(inputWords, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         inputWords.setLineWrap(true);
         inputWords.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         inputWords.setFont(new Font(Font.SANS_SERIF, 0, 14));
-        inputWords.setEditable(false);
 
         loadWordsButton = new JButton("LOAD WORDS");
         loadWordsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         loadWordsButton.addActionListener(new LoadWords());
+
+        clearInputs = new JButton("CLEAR INPUTS");
+        clearInputs.addActionListener(new Cleaner.InputCleaner());
 
         generateAcronyms = new JButton("GENERATE ACRONYMS");
         generateAcronyms.addActionListener(new Generator());
@@ -71,13 +77,18 @@ public class GUI {
         wrappingPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         wrappingPanel.add(textInputScrollPane);
         wrappingPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        wrappingPanel.add(loadWordsButton);
-        wrappingPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        horizontalPanel.add(generateAcronyms);
-        horizontalPanel.add(clearOutcomes);
+        horizontalPanel.add(loadWordsButton);
+        horizontalPanel.add(clearInputs);
 
         wrappingPanel.add(horizontalPanel);
+
+        wrappingPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        horizontalPanel2.add(generateAcronyms);
+        horizontalPanel2.add(clearOutcomes);
+
+        wrappingPanel.add(horizontalPanel2);
         wrappingPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         wrappingPanel.add(textOutputScrollPane);
         wrappingPanel.add(Box.createRigidArea(new Dimension(0, 20)));

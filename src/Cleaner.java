@@ -9,4 +9,10 @@ public class Cleaner implements ActionListener {
     public void actionPerformed(ActionEvent ev){
         GUI.outputAcronyms.setText("");
     }
+    public static class InputCleaner implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ev) {
+            GUI.inputWords.setText("");
+        }
+    }
 }
