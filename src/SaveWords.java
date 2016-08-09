@@ -10,7 +10,8 @@ public class SaveWords implements ActionListener {
         BufferedWriter saver = null;
         try {
            String workingDirectory = System.getProperty("user.dir");
-            File acronyms = new File(workingDirectory, "res\\" + GUI.inputWords.getSelectedText() + "_acro.txt");
+
+            File acronyms = new File(workingDirectory, "res\\" + Generator.inputWord + "_acro.txt");
             saver = new BufferedWriter(new FileWriter(acronyms));
             String[] fragmentedAcronyms = GUI.outputAcronyms.getText().split("\\n");
             for(String el : fragmentedAcronyms){

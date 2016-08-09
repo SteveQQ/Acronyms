@@ -23,9 +23,10 @@ public class GUI {
     public static JButton searchRealWords;
     public static JButton clearOutcomes;
     public static JButton clearInputs;
+    public static JButton getAllAcronyms;
 
     public static void createGUI(){
-        frame = new JFrame("Acronyms Gnerator");
+        frame = new JFrame("Acronyms Generator");
         mainPanel = new JPanel();
         mainPanel.setBackground(Color.decode("#5597C2"));
 
@@ -50,6 +51,7 @@ public class GUI {
         loadWordsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         loadWordsButton.addActionListener(new LoadWords());
 
+
         clearInputs = new JButton("CLEAR INPUTS");
         clearInputs.addActionListener(new Cleaner.InputCleaner());
 
@@ -58,6 +60,9 @@ public class GUI {
 
         clearOutcomes = new JButton("CLEAR OUTCOMES");
         clearOutcomes.addActionListener(new Cleaner());
+
+        getAllAcronyms = new JButton("GET ALL ACRONYMS");
+        getAllAcronyms.addActionListener(new Generator().new CompleteGenerator());
 
         outputAcronyms = new JTextArea(10, 40);
         JScrollPane textOutputScrollPane = new JScrollPane(outputAcronyms, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -80,6 +85,7 @@ public class GUI {
 
         horizontalPanel.add(loadWordsButton);
         horizontalPanel.add(clearInputs);
+        horizontalPanel.add(getAllAcronyms);
 
         wrappingPanel.add(horizontalPanel);
 
@@ -99,6 +105,7 @@ public class GUI {
         mainPanel.add(wrappingPanel);
 
         frame.getContentPane().add(BorderLayout.CENTER, mainPanel);
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

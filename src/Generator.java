@@ -8,20 +8,40 @@ import java.util.*;
  * Created by SteveQ on 2016-08-03.
  */
 public class Generator implements ActionListener {
-    public String inputWord = null;
+    public static String inputWord = null;
+    @Override
     public void actionPerformed(ActionEvent ev) {
-        String selectedWord;
-        try {
-            selectedWord = GUI.inputWords.getSelectedText();
-            if (selectedWord != null) {
-                inputWord = selectedWord;
-                ArrayList<String> generatedAcronyms = generateAcronyms(selectedWord);
-                for(String el : generatedAcronyms){
-                    GUI.outputAcronyms.append(el + "\n");
+        if(GUI.outputAcronyms.getText().isEmpty()) {
+            String selectedWord;
+            try {
+                selectedWord = GUI.inputWords.getSelectedText();
+                if (selectedWord != null) {
+                    inputWord = selectedWord;
+                    ArrayList<String> generatedAcronyms = generateAcronyms(selectedWord);
+                    for (String el : generatedAcronyms) {
+                        GUI.outputAcronyms.append(el + "\n");
+                    }
+                }
+            } catch (IllegalArgumentException iae) {
+                iae.printStackTrace();
+            }
+        }
+    }
+    public class CompleteGenerator implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent ev) {
+            if(GUI.outputAcronyms.getText().isEmpty()) {
+                String[] selectedWords = GUI.inputWords.getText().split("\\n");
+                inputWord = "allAcros";
+                for (String el : selectedWords) {
+                    if (el != null) {
+                        ArrayList<String> generatedAcronyms = generateAcronyms(el);
+                        for (String el2 : generatedAcronyms) {
+                            GUI.outputAcronyms.append(el2 + "\n");
+                        }
+                    }
                 }
             }
-        } catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
         }
     }
     public int strongOperation(int number) {
