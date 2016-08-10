@@ -27,6 +27,7 @@ public class Generator implements ActionListener {
             }
         }
     }
+
     public class CompleteGenerator implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent ev) {
