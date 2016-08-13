@@ -150,6 +150,8 @@ public class GUI {
                 search = new JMenuItem("Search");
                 save = new JMenuItem("Save");
 
+                search.addActionListener(new SearchForWords());
+
                 panel = new JPanel();
                 panel.setLayout(new BorderLayout());
 
@@ -158,7 +160,7 @@ public class GUI {
                 JScrollPane realWordsScrollPane = new JScrollPane(realWords, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 
-            menuPlik.add(search);
+                menuPlik.add(search);
                 menuPlik.add(save);
                 menu.add(menuPlik);
 
