@@ -1,5 +1,6 @@
 import com.sun.deploy.util.ArrayUtil;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -17,10 +18,18 @@ public class Generator implements ActionListener {
                 selectedWord = GUI.inputWords.getSelectedText();
                 if (selectedWord != null) {
                     inputWord = selectedWord;
-                    ArrayList<String> generatedAcronyms = generateAcronyms(selectedWord);
-                    for (String el : generatedAcronyms) {
-                        GUI.outputAcronyms.append(el + "\n");
+                    try {
+                        ArrayList<String> generatedAcronyms = generateAcronyms(selectedWord);
+                        for (String el : generatedAcronyms) {
+                            GUI.outputAcronyms.append(el + "\n");
+                        }
+                    } catch(IllegalArgumentException iae) {
+                        JOptionPane.showMessageDialog(GUI.frame,
+                                "Word length cannot be larger than 8",
+                                "WARNING",
+                                JOptionPane.WARNING_MESSAGE);
                     }
+
                 }
             } catch (IllegalArgumentException iae) {
                 iae.printStackTrace();
@@ -56,7 +65,7 @@ public class Generator implements ActionListener {
         return result;
     }
 
-    public int permutationWithRepetition(int number, List<Integer> repetitions) {
+    public int permutationWithRepetition(int number, int[] repetitions) {
         int result = 0;
         int numenator = strongOperation(number);
         int denumenator = 1;
@@ -67,17 +76,19 @@ public class Generator implements ActionListener {
         return result;
     }
 
-    public List<Integer> getRepetitions(ArrayList<Character> charList){
-        Set<Character> charSet = new HashSet<Character>(charList);
-        List<Integer> repetitions = new ArrayList<Integer>();
-        for (Character elS : charSet) {
-            int i = 0;
-            for(Character el : charList) {
-                if (elS.equals(el)){
-                    i++;
+    public int[] getRepetitions(char[] charList){
+        int[] repetitions = new int[charList.length];
+        ArrayList<Character> repeatedChar = new ArrayList<Character>();
+        for(int i=0; i < charList.length; i++) {
+            repetitions[i]=1;
+            for(int j=0; j < charList.length; j++) {
+                if(j != i){
+                    if(charList[j] == charList[i] && repeatedChar.indexOf(charList[i]) == -1) {
+                        repetitions[i]++;
+                        repeatedChar.add(charList[i]);
+                    }
                 }
             }
-            repetitions.add(i);
         }
         return repetitions;
     }
@@ -105,41 +116,30 @@ public class Generator implements ActionListener {
         return builder.toString();
     }
 
-    public ArrayList<String> generateAcronyms(String word){
-        char[] charsArray = word.toCharArray();
-        ArrayList<Character> charsOrigin = new ArrayList<Character>();
+    public ArrayList<String> generateAcronyms(String word) throws IllegalArgumentException {
+
+        if(word.length() > 8) {
+            throw new IllegalArgumentException();
+        }
+
+        char[] charsOrigin = word.toCharArray();
         ArrayList<String> acronymsList = new ArrayList<String>();
         String acronymAsString = null;
-        for (char ch : charsArray) {
-            charsOrigin.add(new Character(ch));
-        }
+
         ArrayList<Character> charsToModify = new ArrayList<Character>();
-        for (Character el : charsOrigin) {
-            charsToModify.add(el);
+        for (int i=0; i < charsOrigin.length; i++) {
+            charsToModify.add(charsOrigin[i]);
         }
-        if (charsOrigin.size() == 2) {
+
+        if (charsOrigin.length == 2) {
             charsToModify = swapIndexes(charsToModify, 0, 1);
             acronymAsString = getStringRepresentation(charsToModify);
+            acronymsList.add(String.valueOf(charsOrigin));
             acronymsList.add(acronymAsString);
         }
-        if (charsOrigin.size() == 3) {
-            do {
-                for (int i = 0; i < charsOrigin.size(); i++) {
-                    if (i + 1 < charsOrigin.size()) {
-                        charsToModify = swapIndexes(charsToModify, i, i + 1);
-                    } else {
-                        charsToModify = swapIndexes(charsToModify, i, 0);
-                    }
-                    acronymAsString = getStringRepresentation(charsToModify);
-                    if ((acronymsList.indexOf(acronymAsString) < 0)) {
-                        acronymsList.add(acronymAsString);
-                    }
-                }
-            } while(acronymsList.size() != (permutationWithRepetition(charsOrigin.size(), getRepetitions(charsOrigin))));
-        }
-        if (charsOrigin.size() > 3) {
+        if (charsOrigin.length > 2) {
             Character tempRemovedChar = null;
-            for(int i = 0; i < charsOrigin.size(); i++) {
+            for(int i = 0; i < charsOrigin.length; i++) {
                 if (i > 0) {
                     charsToModify = swapIndexes(charsToModify, 0, i);
                 }
@@ -148,18 +148,20 @@ public class Generator implements ActionListener {
                 charsToModify.remove(0);
                 ArrayList<String> partAcronymsList = new ArrayList<String>(generateAcronyms(getStringRepresentation(charsToModify)));
                 String singleWord = null;
-                for(int j = 0; j < partAcronymsList.size(); j++){
+                for (int j = 0; j < partAcronymsList.size(); j++) {
                     singleWord = Character.toString(temporaryRemovedLetter) + partAcronymsList.get(j);
                     partAcronymsList.set(j, singleWord);
                 }
-                for(String el : partAcronymsList) {
-                    if (acronymsList.indexOf(el) < 0) {
+                for (String el : partAcronymsList) {
+                    if (acronymsList.indexOf(el) < 0 ) {
                         acronymsList.add(el);
                     }
                 }
                 charsToModify.add(0, tempRemovedChar);
+                charsToModify = swapIndexes(charsToModify, i, 0);
             }
         }
+
         acronymsList.remove(inputWord);
         System.out.println(acronymsList.size());
         return acronymsList;

@@ -12,11 +12,14 @@ public class GenerateAcronymsTest {
         charListTest.add('a');
         charListTest.add('m');
         charListTest.add('e');
-        List<Integer> reps = gen.getRepetitions(charListTest);
-        System.out.println("Numbers of repetitions: " + reps);
+        char[] lets = {'a', 'd', 'a', 'm'};
+        int[] reps = gen.getRepetitions(lets);
+        for(int el : reps) {
+            System.out.println("Numbers of repetitions: " + el);
+        }
         int combs = gen.permutationWithRepetition(charListTest.size(), reps);
         System.out.println("Possible combinations: " + combs);
-        gen.inputWord = "klomby";
-        System.out.println(gen.generateAcronyms("klomby"));
+        gen.inputWord = "kot";
+        System.out.println(gen.generateAcronyms("kot"));
     }
 }

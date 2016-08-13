@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -19,7 +20,7 @@ public class GUI {
                             searchRealWords, clearOutcomes, clearInputs, getAllAcronyms;
 
     public static void createGUI(){
-        frame = new JFrame("Acronyms Generator");
+        frame = new JFrame("Anagrams Generator");
 
         //-------PANELS--------//
         mainPanel = new JPanel();
@@ -44,7 +45,7 @@ public class GUI {
         getAllAcronyms = buildButton(getAllAcronyms, "GET ALL ACRONYMS", new Generator().new CompleteGenerator());
         saveAcronymsButton = buildButton(saveAcronymsButton, "SAVE ACRONYMS", new SaveWords());
         saveAcronymsButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        //searchRealWords = buildButton(searchRealWords, "SEARCH REAL WORDS");
+        searchRealWords = buildButton(searchRealWords, "SEARCH REAL WORDS", new secondWindowGUI());
         //-------BUTTONS---------//
 
 
@@ -88,7 +89,7 @@ public class GUI {
         wrappingPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         horizontalPanel3.add(saveAcronymsButton);
-        //horizontalPanel3.add(searchRealWords);
+        horizontalPanel3.add(searchRealWords);
 
         wrappingPanel.add(horizontalPanel3);
         wrappingPanel.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -116,7 +117,7 @@ public class GUI {
         //--------FRAME SETUP--------//
     }
 
-    
+
 
     //--------HELPER METHODS--------//
     public static JButton buildButton(JButton ref, String name, ActionListener actionListener){
@@ -130,4 +131,47 @@ public class GUI {
         return ref;
     }
     //--------HELPER METHODS--------//
+
+    public static class secondWindowGUI implements ActionListener{
+        public static JFrame secondFrame;
+        public static JPanel panel;
+        public static JMenuBar menu;
+        public static JMenu menuPlik;
+        public static JMenuItem search;
+        public static JMenuItem save;
+        public static JTextArea realWords;
+
+        @Override
+        public void actionPerformed(ActionEvent ev) {
+                secondFrame = new JFrame("SEARCH REAL WORDS");
+
+                menu = new JMenuBar();
+                menuPlik = new JMenu("Plik");
+                search = new JMenuItem("Search");
+                save = new JMenuItem("Save");
+
+                panel = new JPanel();
+                panel.setLayout(new BorderLayout());
+
+                realWords = new JTextArea();
+                realWords.setLineWrap(true);
+                JScrollPane realWordsScrollPane = new JScrollPane(realWords, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+
+            menuPlik.add(search);
+                menuPlik.add(save);
+                menu.add(menuPlik);
+
+                panel.add(BorderLayout.CENTER, realWordsScrollPane);
+
+                secondFrame.setJMenuBar(menu);
+                secondFrame.getContentPane().add(BorderLayout.CENTER, panel);
+                secondFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+                secondFrame.setResizable(false);
+                secondFrame.setSize(300, 300);
+                secondFrame.setVisible(true);
+
+        }
+    }
 }
+
