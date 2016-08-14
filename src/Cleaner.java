@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 public class Cleaner implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev){
-        GUI.outputAcronyms.setText("");
+        GUI.outputAnagrams.setText("");
     }
     public static class InputCleaner implements ActionListener {
         @Override

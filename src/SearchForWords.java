@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class SearchForWords implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ev){
-        for (String stringElement : getRealWordsList(GUI.outputAcronyms.getText().split("\\n"))) {
+        for (String stringElement : getRealWordsList(GUI.outputAnagrams.getText().split("\\n"))) {
             GUI.secondWindowGUI.realWords.append(stringElement + "\n");
         }
     }

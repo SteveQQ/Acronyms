@@ -14,10 +14,10 @@ public class GUI {
     public static JPanel mainPanel, wrappingPanel, horizontalPanel,
                             horizontalPanel2, horizontalPanel3;
 
-    public static JTextArea inputWords, outputAcronyms;
+    public static JTextArea inputWords, outputAnagrams;
 
-    public static JButton loadWordsButton, generateAcronyms, saveAcronymsButton,
-                            searchRealWords, clearOutcomes, clearInputs, getAllAcronyms;
+    public static JButton loadWordsButton, generateAnagrams, saveAcronymsButton,
+                            searchRealWords, clearOutcomes, clearInputs, getAllAnagrams;
 
     public static void createGUI(){
         frame = new JFrame("Anagrams Generator");
@@ -40,9 +40,9 @@ public class GUI {
         //-------BUTTONS---------//
         loadWordsButton = buildButton(loadWordsButton, "LOAD WORDS", new LoadWords());
         clearInputs = buildButton(clearInputs, "CLEAR INPUTS", new Cleaner.InputCleaner());
-        generateAcronyms = buildButton(generateAcronyms, "GENERATE ACRONYMS", new Generator());
+        generateAnagrams = buildButton(generateAnagrams, "GENERATE ACRONYMS", new Generator());
         clearOutcomes = buildButton(clearOutcomes, "CLEAR OUTCOMES", new Cleaner());
-        getAllAcronyms = buildButton(getAllAcronyms, "GET ALL ACRONYMS", new Generator().new CompleteGenerator());
+        getAllAnagrams = buildButton(getAllAnagrams, "GET ALL ACRONYMS", new Generator().new CompleteGenerator());
         saveAcronymsButton = buildButton(saveAcronymsButton, "SAVE ACRONYMS", new SaveWords());
         saveAcronymsButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         searchRealWords = buildButton(searchRealWords, "SEARCH REAL WORDS", new secondWindowGUI());
@@ -56,12 +56,12 @@ public class GUI {
         inputWords.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         inputWords.setFont(new Font(Font.SANS_SERIF, 0, 14));
 
-        outputAcronyms = new JTextArea(10, 40);
-        JScrollPane textOutputScrollPane = new JScrollPane(outputAcronyms, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        outputAcronyms.setLineWrap(true);
-        outputAcronyms.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-        outputAcronyms.setFont(new Font(Font.SANS_SERIF, 0, 14));
-        outputAcronyms.setEditable(false);
+        outputAnagrams = new JTextArea(10, 40);
+        JScrollPane textOutputScrollPane = new JScrollPane(outputAnagrams, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        outputAnagrams.setLineWrap(true);
+        outputAnagrams.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        outputAnagrams.setFont(new Font(Font.SANS_SERIF, 0, 14));
+        outputAnagrams.setEditable(false);
         //-------TEXT AREAS--------//
 
 
@@ -74,12 +74,12 @@ public class GUI {
         horizontalPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         horizontalPanel.add(clearInputs);
         horizontalPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        horizontalPanel.add(getAllAcronyms);
+        horizontalPanel.add(getAllAnagrams);
 
         wrappingPanel.add(horizontalPanel);
         wrappingPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        horizontalPanel2.add(generateAcronyms);
+        horizontalPanel2.add(generateAnagrams);
         horizontalPanel2.add(Box.createRigidArea(new Dimension(20, 0)));
         horizontalPanel2.add(clearOutcomes);
 
@@ -151,6 +151,7 @@ public class GUI {
                 save = new JMenuItem("Save");
 
                 search.addActionListener(new SearchForWords());
+                save.addActionListener(new SaveWords().new SaveRealWords());
 
                 panel = new JPanel();
                 panel.setLayout(new BorderLayout());

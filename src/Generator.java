@@ -1,5 +1,3 @@
-import com.sun.deploy.util.ArrayUtil;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,16 +10,16 @@ public class Generator implements ActionListener {
     public static String inputWord = null;
     @Override
     public void actionPerformed(ActionEvent ev) {
-        if(GUI.outputAcronyms.getText().isEmpty()) {
+        if(GUI.outputAnagrams.getText().isEmpty()) {
             String selectedWord;
             try {
                 selectedWord = GUI.inputWords.getSelectedText();
                 if (selectedWord != null) {
                     inputWord = selectedWord;
                     try {
-                        ArrayList<String> generatedAcronyms = generateAcronyms(selectedWord);
-                        for (String el : generatedAcronyms) {
-                            GUI.outputAcronyms.append(el + "\n");
+                        ArrayList<String> generatedAnagrams = generateAnagrams(selectedWord);
+                        for (String el : generatedAnagrams) {
+                            GUI.outputAnagrams.append(el + "\n");
                         }
                     } catch(IllegalArgumentException iae) {
                         JOptionPane.showMessageDialog(GUI.frame,
@@ -40,17 +38,25 @@ public class Generator implements ActionListener {
     public class CompleteGenerator implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent ev) {
-            if(GUI.outputAcronyms.getText().isEmpty()) {
+            if(GUI.outputAnagrams.getText().isEmpty()) {
                 String[] selectedWords = GUI.inputWords.getText().split("\\n");
-                inputWord = "allAcros";
                 for (String el : selectedWords) {
                     if (el != null) {
-                        ArrayList<String> generatedAcronyms = generateAcronyms(el);
-                        for (String el2 : generatedAcronyms) {
-                            GUI.outputAcronyms.append(el2 + "\n");
+                        inputWord = el;
+                        try {
+                            ArrayList<String> generatedAnagrams = generateAnagrams(el);
+                            for (String el2 : generatedAnagrams) {
+                                GUI.outputAnagrams.append(el2 + "\n");
+                            }
+                        } catch(IllegalArgumentException iae){
+                            JOptionPane.showMessageDialog(GUI.frame,
+                                    "Word length cannot be larger than 8",
+                                    "WARNING",
+                                    JOptionPane.WARNING_MESSAGE);
                         }
                     }
                 }
+                inputWord = "allAcros";
             }
         }
     }
@@ -116,14 +122,14 @@ public class Generator implements ActionListener {
         return builder.toString();
     }
 
-    public ArrayList<String> generateAcronyms(String word) throws IllegalArgumentException {
+    public ArrayList<String> generateAnagrams(String word) throws IllegalArgumentException {
 
         if(word.length() > 8) {
             throw new IllegalArgumentException();
         }
 
         char[] charsOrigin = word.toCharArray();
-        ArrayList<String> acronymsList = new ArrayList<String>();
+        ArrayList<String> anagramsList = new ArrayList<String>();
         String acronymAsString = null;
 
         ArrayList<Character> charsToModify = new ArrayList<Character>();
@@ -134,8 +140,8 @@ public class Generator implements ActionListener {
         if (charsOrigin.length == 2) {
             charsToModify = swapIndexes(charsToModify, 0, 1);
             acronymAsString = getStringRepresentation(charsToModify);
-            acronymsList.add(String.valueOf(charsOrigin));
-            acronymsList.add(acronymAsString);
+            anagramsList.add(String.valueOf(charsOrigin));
+            anagramsList.add(acronymAsString);
         }
         if (charsOrigin.length > 2) {
             Character tempRemovedChar = null;
@@ -146,15 +152,15 @@ public class Generator implements ActionListener {
                 Character temporaryRemovedLetter = charsToModify.get(0);
                 tempRemovedChar = charsToModify.get(0);
                 charsToModify.remove(0);
-                ArrayList<String> partAcronymsList = new ArrayList<String>(generateAcronyms(getStringRepresentation(charsToModify)));
+                ArrayList<String> partAnagramsList = new ArrayList<String>(generateAnagrams(getStringRepresentation(charsToModify)));
                 String singleWord = null;
-                for (int j = 0; j < partAcronymsList.size(); j++) {
-                    singleWord = Character.toString(temporaryRemovedLetter) + partAcronymsList.get(j);
-                    partAcronymsList.set(j, singleWord);
+                for (int j = 0; j < partAnagramsList.size(); j++) {
+                    singleWord = Character.toString(temporaryRemovedLetter) + partAnagramsList.get(j);
+                    partAnagramsList.set(j, singleWord);
                 }
-                for (String el : partAcronymsList) {
-                    if (acronymsList.indexOf(el) < 0 ) {
-                        acronymsList.add(el);
+                for (String el : partAnagramsList) {
+                    if (anagramsList.indexOf(el) < 0 ) {
+                        anagramsList.add(el);
                     }
                 }
                 charsToModify.add(0, tempRemovedChar);
@@ -162,8 +168,8 @@ public class Generator implements ActionListener {
             }
         }
 
-        acronymsList.remove(inputWord);
-        System.out.println(acronymsList.size());
-        return acronymsList;
+        anagramsList.remove(inputWord);
+        System.out.println(anagramsList.size());
+        return anagramsList;
     }
 }

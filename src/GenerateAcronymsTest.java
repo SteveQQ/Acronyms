@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by SteveQ on 2016-08-05.
@@ -19,7 +18,7 @@ public class GenerateAcronymsTest {
         }
         int combs = gen.permutationWithRepetition(charListTest.size(), reps);
         System.out.println("Possible combinations: " + combs);
-        gen.inputWord = "kot";
-        System.out.println(gen.generateAcronyms("kot"));
+        gen.inputWord = "game";
+        System.out.println(gen.generateAnagrams("game"));
     }
 }
